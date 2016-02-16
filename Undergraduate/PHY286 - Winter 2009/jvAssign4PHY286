@@ -1,0 +1,40 @@
+import pylab
+import math
+
+#Problem 2.13
+
+def batted_ball_rangestep(x,y,vx,vy,dt):
+    vd = 35
+    g = ((6.67*(10**-11))*(5.9736*(10**24)))/(((6378.1*1000)+y)**2)
+    d = 5
+    x = x + (vx*dt)
+    y = y + (vy*dt)
+    v = math.sqrt((vx**2)+(vy**2))
+    b = 0.0039 + (0.0058/(1+math.exp((v-vd)/d)))
+    vx = vx - ((b*v*vx)*dt)
+    vy = vy - ((g + (b*v*vy))*dt)
+    return x,y,vx,vy
+
+def batted_ball_range_nw():
+    angle = 91
+    x_max = 0
+    max_angle = 0
+    for i in range(angle):
+        v = 49
+        theta = math.radians(i)
+        vx = v*math.cos(theta)
+        vy = v*math.sin(theta)
+        x = 0
+        y = 1
+        dt = 0.001
+        x_list = [x]
+        y_list = [y]
+        while y >= 0:
+            x,y,vx,vy = batted_ball_rangestep(x,y,vx,vy,dt)
+            x_list.append(x)
+            y_list.append(y)
+        x_list.reverse()
+        if x_list[0] > x_max:
+            x_max = x_list[0]
+            max_angle = i
+    return max_angle
