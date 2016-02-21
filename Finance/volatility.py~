@@ -20,6 +20,6 @@ FTSE = web.DataReader("^FTSE","yahoo",start,end)
 
 print(GSPC.axes)
 print(GSPC.keys())
-
+GSPC.hist()
 
 
